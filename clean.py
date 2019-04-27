@@ -13,9 +13,10 @@ unprocessed=[]
 
 def put_subscription(domain,query_string):
     if domain in pending_subscriptions:
-        pending_subscriptions[domain].append(query_string)
+     s=pending_subscriptions[domain]
+     if query_string not in s: s.add(query_string)
     else:
-        pending_subscriptions[domain]=[query_string]
+        pending_subscriptions[domain]=set([query_string])
 
 def do_filter(u):
     for (rule,action,param) in filters:
@@ -81,7 +82,7 @@ if __name__ == "__main__":
     
     for k in pending_subscriptions:
         print(k)
-        for u in pending_subscriptions[k]:
+        for u in sorted(pending_subscriptions[k]):
             print(u)
         print()
     print()
